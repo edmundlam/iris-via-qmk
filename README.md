@@ -33,26 +33,27 @@ copied and modified the keymap to feature the following:
 
 1. Set up the [QMK environment](https://docs.qmk.fm/#/newbs_getting_started)
 
-2. Add this repository as a git subomule in this location:
+2. Add this repository as a git submodule in this location:
 
 
-```
-keyboards/keebio/iris/keymaps/via6
-```
+    ```
+    keyboards/keebio/iris/keymaps/via6
+    ```
 
 3. Navigate to the `keymaps` directory and compile the code.
-``` bash
-cd keyboards/keebio/iris/keymaps
-qmk compile -kb keebio/iris/rev7 -km via6
-```
+
+    ``` bash
+    cd keyboards/keebio/iris/keymaps
+    qmk compile -kb keebio/iris/rev7 -km via6
+    ```
 
 The compiled firmware will be located in the root directory of the qmk repository. 
 
 4. Flash the firmware to both sides of your keyboard.
 
-I use the [QMK Toolbox](https://docs-gitbook.keeb.io/docs/flashing-firmware#using-qmk-toolbox)
+    I use the [QMK Toolbox](https://docs-gitbook.keeb.io/docs/flashing-firmware#using-qmk-toolbox)
 
-Remember to clear the EEPROM memory before flashing.
+    Remember to clear the EEPROM memory before flashing.
 
 5. Open chrome, navigate to https://usevia.app/ and connect your Iris.
 
@@ -60,7 +61,15 @@ Remember to clear the EEPROM memory before flashing.
 
 # How to use:
 
+## Modify your layout
 1. Modify your layout as you see fit in Via.
 2. Save your layout as a json file. You can then use this 
     json file to load your layout again if you decide
     to flash your keyboard again.
+
+
+## Modify QMK configurations
+1. Add the changes required in the `config.h`, `keymap.c` or `rules.mk` files
+2. Recompile
+3. Flash the boards again
+4. Reload your via layout. 
