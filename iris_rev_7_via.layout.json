@@ -201,8 +201,8 @@
       "KC_TRNS",
       "KC_NO",
       "KC_NO",
-      "KC_TRNS",
-      "KC_TRNS",
+      "RALT(KC_RGHT)",
+      "RALT(KC_LEFT)",
       "KC_TRNS",
       "KC_TRNS"
     ],
