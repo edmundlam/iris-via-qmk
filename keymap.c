@@ -153,3 +153,27 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
             return TAPPING_TERM;
     }
 }
+
+
+bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LSFT_T(KC_S):
+        case LSFT_T(KC_E):
+            // Immediately select the hold action when another key is tapped.
+            return true;
+        default:
+            // Do not select the hold action when another key is tapped.
+            return false;
+    }
+}
+
+
+void caps_word_set_user(bool active) {
+    if (active) {
+        rgblight_enable();
+    } else {
+        rgblight_disable();
+    }
+}
+
+
