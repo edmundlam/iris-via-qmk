@@ -127,6 +127,8 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case LSFT_T(KC_E):
         case LALT_T(KC_I):
         case LCTL_T(KC_O):
+        case LT(3, KC_D):
+        case LT(3, KC_H):
             // Do not force the mod-tap key press to be handled as a modifier
             // if any other key was pressed while the mod-tap key is held down.
             return false;
@@ -159,6 +161,8 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_S):
         case LSFT_T(KC_E):
+        case LT(3, KC_D):
+        case LT(3, KC_H):
             // Immediately select the hold action when another key is tapped.
             return true;
         default:
@@ -176,4 +180,25 @@ void caps_word_set_user(bool active) {
     }
 }
 
+
+//Home row mods: disable quick tap and hold
+uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LCTL_T(KC_A):
+        case LALT_T(KC_R):
+        case LSFT_T(KC_S):
+        case LGUI_T(KC_T):
+        case LGUI_T(KC_N):
+        case LSFT_T(KC_E):
+        case LALT_T(KC_I):
+        case LCTL_T(KC_O):
+        case LT(3, KC_D):
+        case LT(3, KC_H):
+            //When tapping one of these keys once and then holding, 
+            //remove the auto-repeat ability and activate the hold function instead
+            return 0;
+        default:
+            return QUICK_TAP_TERM;
+    }
+}
 
