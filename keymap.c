@@ -129,6 +129,8 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case LCTL_T(KC_O):
         case LT(3, KC_D):
         case LT(3, KC_H):
+        case LT(3, KC_C):
+        case LT(3, KC_COMM):
             // Do not force the mod-tap key press to be handled as a modifier
             // if any other key was pressed while the mod-tap key is held down.
             return false;
@@ -163,6 +165,8 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
         case LSFT_T(KC_E):
         case LT(3, KC_D):
         case LT(3, KC_H):
+        case LT(3, KC_C):
+        case LT(3, KC_COMM):
             // Immediately select the hold action when another key is tapped.
             return true;
         default:
@@ -194,6 +198,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case LCTL_T(KC_O):
         case LT(3, KC_D):
         case LT(3, KC_H):
+        case LT(3, KC_C):
+        case LT(3, KC_COMM):
             //When tapping one of these keys once and then holding, 
             //remove the auto-repeat ability and activate the hold function instead
             return 0;
