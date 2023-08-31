@@ -9,6 +9,11 @@ enum custom_layer {
     _FN5,
 };
 
+enum custom_keycodes {
+  CPSLK = QK_USER_0,
+};
+
+
 const uint16_t PROGMEM keymaps[][MATRIX_ROWS][MATRIX_COLS] = {
 
   [_MAIN] = LAYOUT(
@@ -131,6 +136,7 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case LT(3, KC_H):
         case LT(3, KC_C):
         case LT(3, KC_COMM):
+        case LT(3, KC_N):
             // Do not force the mod-tap key press to be handled as a modifier
             // if any other key was pressed while the mod-tap key is held down.
             return false;
@@ -152,6 +158,11 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case LSFT_T(KC_E):
         case LALT_T(KC_I):
         case LCTL_T(KC_O):
+        case LT(3, KC_D):
+        case LT(3, KC_H):
+        case LT(3, KC_C):
+        case LT(3, KC_COMM):
+        case LT(3, KC_N):
             return TAPPING_TERM + 50;
         default:
             return TAPPING_TERM;
@@ -167,6 +178,7 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
         case LT(3, KC_H):
         case LT(3, KC_C):
         case LT(3, KC_COMM):
+        case LT(3, KC_N):
             // Immediately select the hold action when another key is tapped.
             return true;
         default:
@@ -200,6 +212,7 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case LT(3, KC_H):
         case LT(3, KC_C):
         case LT(3, KC_COMM):
+        case LT(3, KC_N):
             //When tapping one of these keys once and then holding, 
             //remove the auto-repeat ability and activate the hold function instead
             return 0;
@@ -208,3 +221,14 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+bool process_record_user(uint16_t keycode, keyrecord_t *record) {
+  switch (keycode) {
+    case CPSLK:
+      if (record->event.pressed) {
+        caps_word_toggle();
+      }
+      return false;
+      break;
+  }
+  return true;
+}
