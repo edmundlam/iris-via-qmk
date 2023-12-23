@@ -9,6 +9,7 @@ enum custom_layer {
     _FN5,
 };
 
+// TODO change name to CPSWD
 enum custom_keycodes {
   CPSLK = QK_USER_0,
 };
@@ -188,15 +189,6 @@ bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
 }
 
 
-void caps_word_set_user(bool active) {
-    if (active) {
-        rgblight_enable();
-    } else {
-        rgblight_disable();
-    }
-}
-
-
 //Home row mods: disable quick tap and hold
 uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
@@ -221,6 +213,8 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
     }
 }
 
+//Custom keycode for CapsWord, because via doesn't support CW_TOGG
+//Use with VIA by setting your key to the ANY and entering CUSTOM(64)
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
   switch (keycode) {
     case CPSLK:
@@ -231,4 +225,13 @@ bool process_record_user(uint16_t keycode, keyrecord_t *record) {
       break;
   }
   return true;
+}
+
+// Toggle RGB lighting to indicate that we are in CapsWord state. 
+void caps_word_set_user(bool active) {
+    if (active) {
+        rgblight_enable();
+    } else {
+        rgblight_disable();
+    }
 }
