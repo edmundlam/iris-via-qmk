@@ -66,7 +66,7 @@
       "KC_ENT",
       "KC_O",
       "KC_I",
-      "MT(MOD_LSFT,KC_E)",
+      "MT(MOD_LSFT | MOD_RSFT,KC_E)",
       "LT(3,KC_N)",
       "KC_M",
       "G(KC_SPC)",
