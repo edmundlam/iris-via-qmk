@@ -129,15 +129,10 @@ bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
         case LALT_T(KC_R):
         case LSFT_T(KC_S):
         case LGUI_T(KC_T):
-        case LGUI_T(KC_N):
-        case LSFT_T(KC_E):
-        case LALT_T(KC_I):
-        case LCTL_T(KC_O):
-        case LT(3, KC_D):
-        case LT(3, KC_H):
-        case LT(3, KC_C):
-        case LT(3, KC_COMM):
         case LT(3, KC_N):
+        case RSFT_T(KC_E):
+        // case LALT_T(KC_I): //not used at the moment
+        // case LCTL_T(KC_O): //not used at the moment
             // Do not force the mod-tap key press to be handled as a modifier
             // if any other key was pressed while the mod-tap key is held down.
             return false;
@@ -155,15 +150,10 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
         case LALT_T(KC_R):
         case LSFT_T(KC_S):
         case LGUI_T(KC_T):
-        case LGUI_T(KC_N):
-        case LSFT_T(KC_E):
-        case LALT_T(KC_I):
-        case LCTL_T(KC_O):
-        case LT(3, KC_D):
-        case LT(3, KC_H):
-        case LT(3, KC_C):
-        case LT(3, KC_COMM):
         case LT(3, KC_N):
+        case RSFT_T(KC_E):
+        // case LALT_T(KC_I): //not used at the moment
+        // case LCTL_T(KC_O): //not used at the moment
             return TAPPING_TERM + 50;
         default:
             return TAPPING_TERM;
@@ -174,11 +164,7 @@ uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
 bool get_permissive_hold(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
         case LSFT_T(KC_S):
-        case LSFT_T(KC_E):
-        case LT(3, KC_D):
-        case LT(3, KC_H):
-        case LT(3, KC_C):
-        case LT(3, KC_COMM):
+        case RSFT_T(KC_E):
         case LT(3, KC_N):
             // Immediately select the hold action when another key is tapped.
             return true;
@@ -196,15 +182,10 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
         case LALT_T(KC_R):
         case LSFT_T(KC_S):
         case LGUI_T(KC_T):
-        case LGUI_T(KC_N):
-        case LSFT_T(KC_E):
-        case LALT_T(KC_I):
-        case LCTL_T(KC_O):
-        case LT(3, KC_D):
-        case LT(3, KC_H):
-        case LT(3, KC_C):
-        case LT(3, KC_COMM):
         case LT(3, KC_N):
+        case RSFT_T(KC_E):
+        // case LALT_T(KC_I): //not used at the moment
+        // case LCTL_T(KC_O): //not used at the moment
             //When tapping one of these keys once and then holding, 
             //remove the auto-repeat ability and activate the hold function instead
             return 0;
@@ -216,16 +197,49 @@ uint16_t get_quick_tap_term(uint16_t keycode, keyrecord_t *record) {
 //Custom keycode for CapsWord, because via doesn't support CW_TOGG
 //Use with VIA by setting your key to the ANY and entering CUSTOM(64)
 bool process_record_user(uint16_t keycode, keyrecord_t *record) {
-  switch (keycode) {
-    case CPSLK:
-      if (record->event.pressed) {
-        caps_word_toggle();
-      }
-      return false;
-      break;
-  }
-  return true;
+    switch (keycode) {
+        case CPSLK:
+            if (record->event.pressed) {
+                caps_word_toggle();
+            }
+            return false;
+            break;
+        case LT(3,KC_N):
+            /*
+            This piece of code nullifies the effect of Right Shift when tapping
+            the LT(3,KC_N) key.
+            This helps rolling over RSFT_T(KC_E) and LT(3,KC_N)
+            to obtain the intended "en" instead of "N".
+            Consequently, capital N can only be obtained by tapping LT(3,KC_N)
+            and holding LSFT_T(KC_S) (which is the left Shift mod tap).
+            */
+
+            /*
+            Detect the tap.
+            We're only interested in overriding the tap behavior
+            in a certain cicumstance. The hold behavior can stay the same.
+            */
+            if (record->event.pressed && record->tap.count > 0) {
+                // Detect right Shift
+                if (get_mods() & MOD_BIT(KC_RSFT)) {
+                    // temporarily disable right Shift
+                    // so that we can send KC_E and KC_N
+                    // without Shift on.
+                    unregister_mods(MOD_BIT(KC_RSFT));
+                    tap_code(KC_E);
+                    tap_code(KC_N);
+                    // restore the mod state
+                    add_mods(MOD_BIT(KC_RSFT));
+                    // to prevent QMK from processing LT(3,KC_N) as usual in our special case
+                    return false;
+                }
+            }
+             /*else process LT(3,KC_N) as usual.*/
+            return true;
+        }
+    return true;
 }
+
 
 // Toggle RGB lighting to indicate that we are in CapsWord state. 
 void caps_word_set_user(bool active) {
