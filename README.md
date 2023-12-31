@@ -1,6 +1,10 @@
 # iris-via-qmk
 My Keebio Iris Rev7 layout with 6 layers, via support, custom qmk configurations and 6 layers.
 
+![image](https://github.com/edmundlam/iris-via-qmk/assets/2623895/87e90225-8bad-43f0-9ab8-f1816aec5c5e)
+
+See the other layers of my personal configuration [here](./layout.md).
+
 # Introduction
 
 The default Iris layout for QMK is very usable, especially 
