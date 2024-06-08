@@ -37,11 +37,18 @@ copied and modified the keymap to feature the following:
 
 1. Set up the [QMK environment](https://docs.qmk.fm/#/newbs_getting_started)
 
+    ``` bash
+    brew install qmk/qmk/qmk
+    qmk setup -H <desired_qmk_repo_location>
+    ```
+
 2. Add this repository as a git submodule in this location:
 
 
     ```
-    keyboards/keebio/iris/keymaps/via6
+    cd keyboards/keebio/iris/keymaps
+    git submodule add git@github.com:edmundlam/iris-via-qmk.git
+    git mv iris-via-qmk via6
     ```
 
 3. Navigate to the `keymaps` directory and compile the code.
