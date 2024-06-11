@@ -123,6 +123,33 @@ const uint16_t PROGMEM encoder_map[][NUM_ENCODERS][2] = {
 #endif
 
 
+// Home row mods: Disable HOLD_ON_OTHER_KEYPRESS for home row mods.
+// Force waiting till tapping term to activate the hold key
+// Note this setting is useful however for mods not on the home row
+bool get_hold_on_other_key_press(uint16_t keycode, keyrecord_t *record) {
+    switch (keycode) {
+        case LCTL_T(KC_A):
+        case LGUI_T(KC_A): //used in windows base layer
+        case LALT_T(KC_A): //used in windows base layer
+        case LALT_T(KC_R):
+        case LSFT_T(KC_S):
+        case LGUI_T(KC_T):
+        case LCTL_T(KC_T): //used in windows base layer
+        case LT(3, KC_N):
+        case RSFT_T(KC_E):
+        // case LALT_T(KC_I): //not used at the moment
+        // case LCTL_T(KC_O): //not used at the moment
+            // Do not force the mod-tap key press to be handled as a modifier
+            // if any other key was pressed while the mod-tap key is held down.
+            return false;
+        default:
+            // Force the dual-role key press to be handled as a modifier if any
+            // other key was pressed while the mod-tap key is held down.
+            return true;
+    }
+}
+
+
 //Home row mods: Increase tapping term for home row mods
 uint16_t get_tapping_term(uint16_t keycode, keyrecord_t *record) {
     switch (keycode) {
